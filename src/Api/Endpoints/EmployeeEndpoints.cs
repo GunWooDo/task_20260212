@@ -21,6 +21,8 @@ public static class EmployeeEndpoints
             .WithSummary("이름으로 직원 연락처를 조회합니다.");
 
         group.MapPost("/", CreateEmployees)
+            .DisableAntiforgery()
+            .Accepts<Api.Dtos.EmployeeUploadDto>("multipart/form-data")
             .WithName("CreateEmployees")
             .WithSummary("파일 업로드 또는 본문 텍스트로 직원 데이터를 추가합니다.");
     }

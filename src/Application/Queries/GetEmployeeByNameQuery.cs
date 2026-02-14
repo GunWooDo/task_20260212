@@ -11,7 +11,7 @@ public sealed class GetEmployeeByNameQueryHandler(IEmployeeRepository repository
     public async Task<IReadOnlyList<Employee>> HandleAsync(GetEmployeeByNameQuery query, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(query.Name))
-            throw new AppValidationException("name is required.");
+            throw new AppValidationException("이름은 필수입니다.");
 
         return await repository.FindByNameAsync(query.Name.Trim(), cancellationToken);
     }

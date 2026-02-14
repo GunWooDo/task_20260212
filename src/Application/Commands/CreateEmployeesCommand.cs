@@ -19,7 +19,7 @@ public sealed class CreateEmployeesCommandHandler(
 
         if (hasCsv == hasJson)
         {
-            throw new AppValidationException("provide exactly one format: csv or json.");
+            throw new AppValidationException("csv 또는 json 중 하나만 제공해야 합니다.");
         }
 
         IReadOnlyList<Employee> parsed = hasCsv

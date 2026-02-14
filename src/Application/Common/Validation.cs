@@ -9,7 +9,7 @@ public static partial class Validation
     {
         if (page <= 0 || pageSize <= 0)
         {
-            throw new AppValidationException("page and pageSize must be greater than zero.");
+            throw new AppValidationException("page와 pageSize는 0보다 커야 합니다.");
         }
     }
 
@@ -20,13 +20,13 @@ public static partial class Validation
         var tel = employee.Tel.Trim();
 
         if (string.IsNullOrWhiteSpace(name))
-            throw new AppValidationException("name is required.");
+            throw new AppValidationException("이름은 필수입니다.");
 
         if (!EmailRegex().IsMatch(email))
-            throw new AppValidationException($"invalid email: {email}");
+            throw new AppValidationException($"유효하지 않은 이메일 형식입니다: {email}");
 
         if (!PhoneRegex().IsMatch(tel))
-            throw new AppValidationException($"invalid tel: {tel}");
+            throw new AppValidationException($"유효하지 않은 전화번호 형식입니다: {tel}");
 
         return employee with { Name = name, Email = email, Tel = tel };
     }

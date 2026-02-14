@@ -13,7 +13,7 @@ public sealed class InMemoryEmployeeRepository : IEmployeeRepository
         var incoming = employees.ToList();
 
         if (incoming.Count == 0)
-            throw new AppValidationException("at least one employee is required.");
+            throw new AppValidationException("최소 한 명 이상의 직원이 필요합니다.");
 
         EnsureNoDuplicateInIncoming(incoming);
 
@@ -23,7 +23,7 @@ public sealed class InMemoryEmployeeRepository : IEmployeeRepository
                 _employees.Any(existing => IsSameIdentity(existing, newEmployee)));
 
             if (duplicate is not null)
-                throw new AppValidationException($"duplicate employee exists: {duplicate.Name}/{duplicate.Email}/{duplicate.Tel}");
+                throw new AppValidationException($"중복된 직원이 존재합니다: {duplicate.Name}/{duplicate.Email}/{duplicate.Tel}");
 
             _employees.AddRange(incoming);
         }
@@ -73,13 +73,13 @@ public sealed class InMemoryEmployeeRepository : IEmployeeRepository
             .FirstOrDefault(g => g.Count() > 1);
 
         if (byEmail is not null)
-            throw new AppValidationException($"duplicate email in request: {byEmail.Key}");
+            throw new AppValidationException($"요청에 중복된 이메일이 있습니다: {byEmail.Key}");
 
         var byTel = incoming
             .GroupBy(x => x.Tel, StringComparer.OrdinalIgnoreCase)
             .FirstOrDefault(g => g.Count() > 1);
 
         if (byTel is not null)
-            throw new AppValidationException($"duplicate tel in request: {byTel.Key}");
+            throw new AppValidationException($"요청에 중복된 전화번호가 있습니다: {byTel.Key}");
     }
 }
