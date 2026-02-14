@@ -1,6 +1,6 @@
+using Application;
 using Application.Commands;
 using Application.Common;
-using Application.Parsing;
 using Application.Queries;
 using Infrastructure;
 
@@ -9,11 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IEmployeeRepository, InMemoryEmployeeRepository>();
-builder.Services.AddSingleton<IEmployeeImportParser, EmployeeImportParser>();
-builder.Services.AddScoped<ICommandHandler<CreateEmployeesCommand, int>, CreateEmployeesCommandHandler>();
-builder.Services.AddScoped<IQueryHandler<GetEmployeesQuery, Domain.PagedResult<Domain.Employee>>, GetEmployeesQueryHandler>();
-builder.Services.AddScoped<IQueryHandler<GetEmployeeByNameQuery, IReadOnlyList<Domain.Employee>>, GetEmployeeByNameQueryHandler>();
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 
@@ -37,6 +34,8 @@ app.UseExceptionHandler(exceptionApp =>
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.MapGet("/", () => Results.Redirect("/swagger"));
 
 app.MapGet("/api/employee", async (
         int page,
