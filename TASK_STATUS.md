@@ -7,6 +7,7 @@
 - [x] Unit 테스트 작성 (파서/커맨드/쿼리 검증)
 - [x] Integration 테스트 작성 (핵심 API 성공/실패 시나리오)
 - [x] CI 워크플로우에서 `dotnet test` 자동 실행
+- [x] API 프로젝트 Swagger 패키지 참조 추가 (CI 빌드 실패 원인 보정)
 
 ## 진행중
 - [x] 통합 테스트 시나리오 추가 보강 (form field 기반 입력, 잘못된 페이징)
