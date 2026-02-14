@@ -21,6 +21,19 @@ dotnet run --project src/Api/Api.csproj
 
 Swagger: `http://localhost:5000/swagger` (환경에 따라 포트 상이)
 
+## Persistence Layer
+
+- **SQLite** 사용 (`Data Source=employees.db`)
+- 앱 시작 시 `EnsureCreated()`로 DB 파일과 테이블을 자동 생성합니다
+- **별도 DB 설치나 마이그레이션이 필요 없습니다**
+
+## 샘플 데이터
+
+`samples/` 폴더에 테스트용 데이터를 포함했습니다. Swagger 또는 `curl`로 파일 업로드 테스트 시 사용할 수 있습니다.
+
+- `samples/employees.csv` — CSV 형식 샘플
+- `samples/employees.json` — JSON 형식 샘플
+
 ## 테스트
 
 ```bash
