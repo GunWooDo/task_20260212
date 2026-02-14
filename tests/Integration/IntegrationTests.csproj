@@ -12,6 +12,10 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="../../src/Api/Api.csproj" />
+    <ProjectReference Include="../../src/Infrastructure/Infrastructure.csproj" />
   </ItemGroup>
 </Project>

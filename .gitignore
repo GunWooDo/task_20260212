@@ -1,0 +1,25 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+
+## IDE
+.vs/
+.idea/
+*.swp
+
+## Build artifacts
+build.log
+build_log.txt
+
+## Test results
+TestResults/
+
+## OS
+Thumbs.db
+.DS_Store
+
+## Database
+*.db

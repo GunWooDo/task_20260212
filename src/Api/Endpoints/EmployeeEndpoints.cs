@@ -22,7 +22,7 @@ public static class EmployeeEndpoints
 
         group.MapPost("/", CreateEmployees)
             .DisableAntiforgery()
-            .Accepts<Api.Dtos.EmployeeUploadDto>("multipart/form-data")
+            .Accepts<Api.Dtos.EmployeeUploadDto>("multipart/form-data", "application/json", "text/plain")
             .WithName("CreateEmployees")
             .WithSummary("파일 업로드 또는 본문 텍스트로 직원 데이터를 추가합니다.");
     }
