@@ -8,24 +8,31 @@ using Serilog.Events;
 var solutionDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", ".."));
 var logPath = Path.Combine(solutionDir, "..", "task_20260212_logs", "error-.log");
 
-// ── Serilog 설정 ──
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Information()
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-    .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
-    .WriteTo.Console(
-        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}")
-    .WriteTo.File(
-        path: logPath,
-        restrictedToMinimumLevel: LogEventLevel.Error,
-        rollingInterval: RollingInterval.Day,
-        outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss}]{NewLine}{Level:u5} | {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
-    .CreateLogger();
-
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+
+    // ── Serilog 설정 ──
+    var loggerConfig = new LoggerConfiguration()
+        .MinimumLevel.Information();
+
+    if (builder.Environment.IsProduction())
+    {
+        loggerConfig
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+            .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning);
+    }
+
+    Log.Logger = loggerConfig
+        .WriteTo.Console(
+            outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}")
+        .WriteTo.File(
+            path: logPath,
+            restrictedToMinimumLevel: LogEventLevel.Error,
+            rollingInterval: RollingInterval.Day,
+            outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss}]{NewLine}{Level:u5} | {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
+        .CreateLogger();
 
     builder.Host.UseSerilog();
 
@@ -33,7 +40,7 @@ try
     builder.Services.AddSwaggerGen();
 
     builder.Services.AddApplication();
-    builder.Services.AddInfrastructure();
+    builder.Services.AddInfrastructure(builder.Configuration);
 
     var app = builder.Build();
 
